@@ -158,3 +158,5 @@ soon.
 - go mod init github.com/wrunk/grumpo
 - go build to add deps
 - How to pull down/install?
+
+https://blog.golang.org/using-go-modules
