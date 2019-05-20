@@ -41,7 +41,6 @@ func helpDie() {
 
 // TODO create init command that will require an empty starting dir
 func main() {
-	loadBaseTemplate()
 
 	if len(os.Args) == 1 { // Running just grumpo
 		fmt.Printf("Grumpo version %d\n", version)
@@ -51,10 +50,12 @@ func main() {
 	cmd := os.Args[1]
 	switch cmd {
 	case "gen":
+		loadBaseTemplate()
 		gen()
 	case "init":
 		initNewProj()
 	case "local":
+		loadBaseTemplate()
 		local()
 	default:
 		helpDie()

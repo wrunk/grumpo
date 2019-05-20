@@ -107,18 +107,21 @@ var baseHTML = `
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		
+		<!-- Add our own CSS -->
+		<link rel="stylesheet" href="/static/css/main.css">
 
     <title>Grumpo, Example</title>
   </head>
   <body>
-	<h1>Grumpo, Example</h1>
-	<p>You can check out Grumpo <a href="https://github.com/wrunk/grumpo">here.</a></p>
+		<h1>Grumpo, Example</h1>
+		<p>You can check out Grumpo <a href="https://github.com/wrunk/grumpo">here.</a></p>
 
-	<p>Page content goes below which is usually wrapped in bootstrap containers/row/cols</p>
+		<p>Page content goes below which is usually wrapped in bootstrap containers/row/cols</p>
 
-	{{ .page }}
+		{{ .page }}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

@@ -150,11 +150,13 @@ soon.
 - Also check to make sure each sub dir has an index
 - Review TODOs
 - Local server access logging
-- Check static files for local
+- Check static files for local (loading /static/css/main.css doesnt work)
 - 404 page support
 - glcoud ignore thing for drafts
 - Deploy commands (make or shell script?)
 - OSS license
+- When HTML fails to validate, it breaks webserver.
+  Also it has an unhelpful, crappy error message
 
 ## Notes on using go modules
 
