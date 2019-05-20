@@ -151,6 +151,10 @@ soon.
 - Review TODOs
 - Local server access logging
 - Check static files for local
+- 404 page support
+- glcoud ignore thing for drafts
+- Deploy commands (make or shell script?)
+- OSS license
 
 ## Notes on using go modules
 

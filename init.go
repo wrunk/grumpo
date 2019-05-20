@@ -25,6 +25,9 @@ var (
 		"drafts/index.html":      draftsIndexHTML,
 		"drafts/demo/index.md":   draftsDemoIndexMD,
 		"drafts/demo/about.html": draftsDemoAboutHTML,
+
+		"app.yaml": appYaml,
+		"main.go":  mainGo,
 	}
 )
 
@@ -135,18 +138,111 @@ h1 {
 `
 
 // ***** Example pages and drafts
-var pagesIndexMD = ``
-var pagesDemoIndexMD = ``
-var pagesDemoHelpHTML = ``
+var pagesIndexMD = `
+# Home Page!
 
-var draftsIndexHTML = ``
-var draftsDemoIndexMD = ``
-var draftsDemoAboutHTML = ``
+This part should be a paragraph about the home page!
+Check the html to confirm.
+`
+var pagesDemoIndexMD = `
+# Demo Index Markdown Page
+
+Just showing use of a subdir...
+`
+var pagesDemoHelpHTML = `
+<h1>Pages can also be written in html</h1>
+
+<p>This demo help page is html!</p>
+`
+
+var draftsIndexHTML = `
+<h1>Home Page in progress</h1>
+
+<p>We leverage a simple drafts directory to deal with
+drafts that you don't want to get built and go live</p>`
+
+var draftsDemoIndexMD = `
+# Demo Index Markdown page
+
+Back into markdown. Hopefully we can do more cool stuff
+with markdown like TOC and auto heading anchoring.
+`
+
+var draftsDemoAboutHTML = `
+<h1>Drafts Demo About HTML Page</h1>
+
+<p>Showing a sub dir in drafts. To complete a draft, move it into pages
+wherever you would like it.</p>`
 
 // ***** App Engine hosting related files
-var appYaml = ``
+// Main app engine hosting configuration file.
+// You can see more info about using App Engine with Golang here:
+// https://cloud.google.com/appengine/docs/standard/go112/quickstart
+// However you need careful settings to serve a static site
+// TODO add comments or a post on this
+var appYaml = `
+runtime: go111
+service: grumpo
+env: standard
+instance_class: F1
+
+# Make sure our content isn't cached too long (10m is default)
+default_expiration: "60s"
+
+handlers:
+- url: /
+  static_files: public/index.html
+  upload: /
+  secure: always
+
+- url: /(.*)/$
+  static_files: \1/index.html
+  upload: .*\.html$
+  secure: always
+
+- url: '.*'
+  script: auto
+
+# Do we need this?
+automatic_scaling:
+  min_idle_instances: automatic
+  max_idle_instances: automatic
+  min_pending_latency: automatic
+  max_pending_latency: automatic
+
+`
 
 // In order to make this work on App Engine, you
 // need to have a dynamic server setup even if does
 // nothing. TODO link to a blog post about this.
-var mainGo = ``
+// For now any requests that end up here are assumed to be 404.
+// TODO consider how to link a 404.html in here
+var mainGo = `
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+)
+
+func main() {
+	http.HandleFunc("/", indexHandler)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+		log.Printf("Defaulting to port %s", port)
+	}
+
+	log.Printf("Listening on port %s", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
+}
+
+// Always return 404 for now since this is a static site
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	http.NotFound(w, r)
+}
+
+`
