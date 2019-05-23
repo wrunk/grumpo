@@ -148,15 +148,15 @@ soon.
 - RSS generator
 - Create a robots.txt
 - Also check to make sure each sub dir has an index
-- Review TODOs
 - Local server access logging
-- Check static files for local (loading /static/css/main.css doesnt work)
 - 404 page support
-- glcoud ignore thing for drafts
+- gcloud ignore thing for drafts
 - Deploy commands (make or shell script?)
 - OSS license
 - When HTML fails to validate, it breaks webserver.
   Also it has an unhelpful, crappy error message
+- When rss, sitemaps, robots ready, include rules in app.yaml
+- Add commands to this readme for running tests, deploying
 
 ## Notes on using go modules
 
