@@ -67,7 +67,7 @@ func generateAndWriteHTML() {
 
 func copyStatic() string {
 	// This is lazy but leverage system cp. Will also create dir
-	err := exec.Command("cp", "-r", "./static/", "build").Run()
+	err := exec.Command("cp", "-r", "./static", "build").Run()
 	if err != nil {
 		return fmt.Sprintf("Failed to copyStatic using system cp cmd: (%v)", err)
 	}
