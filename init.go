@@ -28,6 +28,7 @@ var (
 
 		"app.yaml": appYaml,
 		"main.go":  mainGo,
+		".gcloudignore": gcloudIgnore,
 	}
 )
 
@@ -253,5 +254,13 @@ func main() {
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	http.NotFound(w, r)
 }
+
+`
+
+// This tells App Engine not to deploy these files/directories.
+// Similar format to .gitignore
+var gcloudIgnore = `
+/drafts
+/pages
 
 `
