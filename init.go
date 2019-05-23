@@ -12,8 +12,8 @@ import (
 var (
 	initialFiles = map[string]string{
 		".gitignore":          gitIgnore,
-		"robots":              robots,
-		"rss":                 rss,
+		"robots.txt":              robots,
+		"rss.txt":                 rss,
 		"sitemap.xml":         sitemapXML,
 		"base.html":           baseHTML,
 		"static/css/main.css": mainCSS,
@@ -194,12 +194,18 @@ default_expiration: "60s"
 
 handlers:
 - url: /
-  static_files: public/index.html
+  static_files: build/index.html
   upload: /
   secure: always
 
+# TODO add rules for sitemaps, robots, rss
+
+- url: /static
+  static_dir: build/static
+  secure: always
+
 - url: /(.*)/$
-  static_files: \1/index.html
+  static_files: build/\1/index.html
   upload: .*\.html$
   secure: always
 
