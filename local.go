@@ -56,7 +56,7 @@ func local() {
 		fmt.Fprintf(w, renderJSONRepr())
 	})
 
-	fs := http.FileServer(http.Dir("static/"))
+	fs := http.FileServer(http.Dir("./"))
 	http.Handle("/static/", fs)
 
 	http.ListenAndServe(":9876", nil)
