@@ -30,7 +30,7 @@ PATH
 
 Please create a directory specifically for this new website (let's call it `mysite`)
 for the sake of this guide somewhere near where you create new software projects.
-It might be better to do this outside of your gopaht
+It might be better to do this outside of your gopath
 
 Change directory to wherever you keep your projects
 `cd projects`
@@ -221,6 +221,10 @@ soon.
 - When rss, sitemaps, robots ready, include rules in app.yaml
 - Add commands to this readme for running tests, deploying
 - Link to a simple GOPATH explanation for setup
+- Home page should list out all pages/ (not drafts) to show
+  how to use dynamic content
+- Consider adding or at least commenting on anchorjs or how this
+  could be done with markdown generator. https://github.com/bryanbraun/anchorjs
 
 ## Notes on using go modules
 
