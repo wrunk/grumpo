@@ -13,7 +13,7 @@ var (
 	initialFiles = map[string]string{
 		".gitignore":          gitIgnore,
 		"robots.txt":              robots,
-		"rss.txt":                 rss,
+		"rss.xml":                 rss,
 		"sitemap.xml":         sitemapXML,
 		"base.html":           baseHTML,
 		"static/css/main.css": mainCSS,
