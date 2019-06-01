@@ -55,7 +55,6 @@ func main() {
 	case "init":
 		initNewProj()
 	case "local":
-		loadBaseTemplate()
 		local()
 	default:
 		helpDie()

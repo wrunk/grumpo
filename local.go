@@ -20,6 +20,7 @@ func local() {
 
 	// All requests other than index and json
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		loadBaseTemplate()
 		errMsg := loadAllFromDisk()
 		if errMsg != "" {
 			writeErrorPage(w, "Error loading pages", fmt.Sprintf("Error: (%s)", errMsg))
