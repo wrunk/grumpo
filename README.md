@@ -9,6 +9,9 @@ of this project low, and keeping you in control of your site.
 Please be careful as this is a beta release and there may be serious bugs.
 Use at your own risk!
 
+Grumpo is free and open source software and is published with no
+warranties of any kind! Please see [License](/LICENSE) for details.
+
 ## Quick Start
 
 These instructions are appropriate for most developers. If you are having
