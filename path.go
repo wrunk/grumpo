@@ -6,15 +6,6 @@ import (
 	"strings"
 )
 
-func getNameAndExt(fileName string) (string, string) {
-	parts := strings.Split(fileName, ".")
-	if !strings.Contains(fileName, ".") {
-		return fileName, "" // This is really an error case, just return
-		// file name
-	}
-	return strings.Join(parts[:len(parts)-1], "."), parts[len(parts)-1]
-}
-
 // Recursively walk down dirs finding files
 // Since pages var is now global, probably dont need this, whatev
 func walkFiles(dir string) ([]Page, string) {
@@ -63,7 +54,11 @@ func buildPage(dir, fileName string) Page {
 	name, ext := getNameAndExt(fileName)
 	if name != "index" {
 		bdir += "/" + name
-		linkDir += "/" + name
+		if linkDir != "" { // We're in a sub dir not like about.md
+			linkDir += "/" + name
+		} else { // In the case of root level pages, need name
+			linkDir = name
+		}
 	}
 	return Page{
 		BaseDir:       dir,
@@ -75,4 +70,13 @@ func buildPage(dir, fileName string) Page {
 		BuildDir:      bdir,
 		BuildFullPath: bdir + "/index.html",
 	}
+}
+
+func getNameAndExt(fileName string) (string, string) {
+	parts := strings.Split(fileName, ".")
+	if !strings.Contains(fileName, ".") {
+		return fileName, "" // This is really an error case, just return
+		// file name
+	}
+	return strings.Join(parts[:len(parts)-1], "."), parts[len(parts)-1]
 }
