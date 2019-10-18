@@ -6,8 +6,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
-
-	"github.com/yosssi/gohtml"
 )
 
 // TODO this file could be refactored out into proper handler
@@ -154,6 +152,7 @@ func renderPage(page Page) []byte {
 	}
 
 	// Pretty print after we validate since this stupid lib won't check crap!
-	finalPage = gohtml.FormatBytes(finalPage)
+	// Don't use this for now as it screws up the pre formatted code blocks
+	// finalPage = gohtml.FormatBytes(finalPage)
 	return finalPage
 }

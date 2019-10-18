@@ -5,8 +5,6 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
-
-	"github.com/yosssi/gohtml"
 )
 
 func gen() {
@@ -57,7 +55,8 @@ func generateAndWriteHTML() {
 		}
 
 		// Pretty print after we validate since this stupid lib won't check crap!
-		finalPage = gohtml.FormatBytes(finalPage)
+		// Don't use this for now as it screws up the pre formatted code blocks
+		// finalPage = gohtml.FormatBytes(finalPage)
 		err = ioutil.WriteFile(p.BuildFullPath, finalPage, 0644)
 		if err != nil {
 			die("Couldn't write file (%s), err: (%v)", p.BuildFullPath, err)
