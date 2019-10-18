@@ -228,6 +228,9 @@ soon.
   how to use dynamic content
 - Consider adding or at least commenting on anchorjs or how this
   could be done with markdown generator. https://github.com/bryanbraun/anchorjs
+- Same with highlight.js
+- Or perhaps use the server side highlighting
+- Print an error if port 9876 is in use
 
 ## Notes on using go modules
 
