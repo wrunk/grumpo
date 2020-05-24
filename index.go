@@ -15,6 +15,8 @@ type Page struct {
 
 	BuildDir      string // Sub "pages" for "build", used for writing to
 	BuildFullPath string // build/index.html
+
+	Meta *Meta
 }
 
 func isValidExt(ext string) bool {
@@ -38,6 +40,8 @@ func hasDuplicateName(idx int, path string) bool {
 	return false
 }
 
+// validateIndex checks all pages for valid extensions and
+// checks various other things to make sure we didnt screw ourselves
 // Returns empty string on success, error message on failure
 func validateIndex() string {
 
@@ -54,12 +58,7 @@ func validateIndex() string {
 		if !isValidExt(page.Ext) {
 			return fmt.Sprintf("Found invalid file extension (%s) for page (%#v)", page.Ext, page)
 		}
-		// Can't have a drafts dir inside pages because we serve
-		// drafts directly like http://localhost:9876/drafts/hello/
-		if strings.HasPrefix(page.BaseDir, "pages/drafts") ||
-			(page.BaseDir+"/"+page.Name) == "pages/drafts" {
-			return fmt.Sprintf("You cannot have a file or dir named drafts inside pages")
-		}
+
 		// static dir is reserved for other static assets like css, js, images
 		if strings.HasPrefix(page.BaseDir, "pages/static") ||
 			(page.BaseDir+"/"+page.Name) == "pages/static" {

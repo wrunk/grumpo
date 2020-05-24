@@ -12,8 +12,8 @@ import (
 var (
 	initialFiles = map[string]string{
 		".gitignore":          gitIgnore,
-		"robots.txt":              robots,
-		"rss.xml":                 rss,
+		"robots.txt":          robots,
+		"rss.xml":             rss,
 		"sitemap.xml":         sitemapXML,
 		"base.html":           baseHTML,
 		"static/css/main.css": mainCSS,
@@ -22,12 +22,8 @@ var (
 		"pages/demo/index.md":  pagesDemoIndexMD,
 		"pages/demo/help.html": pagesDemoHelpHTML,
 
-		"drafts/index.html":      draftsIndexHTML,
-		"drafts/demo/index.md":   draftsDemoIndexMD,
-		"drafts/demo/about.html": draftsDemoAboutHTML,
-
-		"app.yaml": appYaml,
-		"main.go":  mainGo,
+		"app.yaml":      appYaml,
+		"main.go":       mainGo,
 		".gcloudignore": gcloudIgnore,
 	}
 )
@@ -60,7 +56,6 @@ func initNewProj() {
 	// Then create some dirs
 	mkdirDashP("static/css")
 	mkdirDashP("pages/demo")
-	mkdirDashP("drafts/demo")
 
 	// Then write em all!
 	for fileName, contents := range initialFiles {
@@ -141,14 +136,25 @@ h1 {
 }
 `
 
-// ***** Example pages and drafts
+// ***** Example pages
 var pagesIndexMD = `
+{
+	"title":"Home Page!",
+	"desc":"Welcome to the premeier web site of all websites"
+	// You can use c-style comments as long as they are on their own
+	// line and use the // format (not /**/)
+	// Headlines and live/publish dates probably don't make sense for the homepage
+	// Setting the homepage to false will prevent the site from actually
+	// generating (but you can still view it locally)
+	"live":false
+}
 # Home Page!
 
 This part should be a paragraph about the home page!
 Check the html to confirm.
 `
 var pagesDemoIndexMD = `
+
 # Demo Index Markdown Page
 
 Just showing use of a subdir...
@@ -158,25 +164,6 @@ var pagesDemoHelpHTML = `
 
 <p>This demo help page is html!</p>
 `
-
-var draftsIndexHTML = `
-<h1>Home Page in progress</h1>
-
-<p>We leverage a simple drafts directory to deal with
-drafts that you don't want to get built and go live</p>`
-
-var draftsDemoIndexMD = `
-# Demo Index Markdown page
-
-Back into markdown. Hopefully we can do more cool stuff
-with markdown like TOC and auto heading anchoring.
-`
-
-var draftsDemoAboutHTML = `
-<h1>Drafts Demo About HTML Page</h1>
-
-<p>Showing a sub dir in drafts. To complete a draft, move it into pages
-wherever you would like it.</p>`
 
 // ***** App Engine hosting related files
 // Main app engine hosting configuration file.
@@ -260,7 +247,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 // This tells App Engine not to deploy these files/directories.
 // Similar format to .gitignore
 var gcloudIgnore = `
-/drafts
 /pages
 
 `

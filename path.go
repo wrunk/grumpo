@@ -29,13 +29,11 @@ func walkFiles(dir string) ([]Page, string) {
 }
 
 /*
+buildPage builds the page object with page metadata
 Dir possibilities:
 - pages (base)
 - pages/warren (subfolder)
 - pages/warren/trees (sub-subfolder)
-
-- drafts (in the case of local server)
-- drafts/pages (error case - can't have a folder pages)
 
 File possibilities:
 - index.html
@@ -44,11 +42,22 @@ File possibilities:
 
 */
 func buildPage(dir, fileName string) Page {
+	p := _buildPage(dir, fileName)
+	meta, err := loadMeta(p.FullPath)
+	if err != nil {
+		die("Failed to load meta from file (%s), err: (%s)", p.FullPath, err)
+	}
+	p.Meta = meta
+	return p
+}
+
+// Just construct the Page object so we can test this!
+func _buildPage(dir, fileName string) Page {
+	// linkDir is used to build links for index page and elsewhere
 	linkDir := ""
+	// Always exclude /pages/ from links
 	if strings.HasPrefix(dir, "pages/") {
 		linkDir = dir[6:]
-	} else if strings.HasPrefix(dir, "drafts") {
-		linkDir = dir
 	}
 	bdir := strings.Replace(dir, "pages", "build", -1)
 	name, ext := getNameAndExt(fileName)

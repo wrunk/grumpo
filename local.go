@@ -51,6 +51,8 @@ func local() {
 			writeErrorPage(w, "Error loading pages", fmt.Sprintf("Error: (%s)", errMsg))
 			return
 		}
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
 
 		fmt.Fprintf(w, renderJSONRepr())
 	})
@@ -79,19 +81,14 @@ func findPage(path string) *Page {
 
 func renderLocalIndex() string {
 	page := "<body>\n<h1>Local Development Index</h1>\n<h2>Published Pages</h2>\n"
-	drafts := "<h2>Drafts</h2>"
 	for _, p := range pages {
-		if strings.HasPrefix(p.BaseDir, "drafts") {
-			drafts += localLink(p)
-		} else {
-			page += localLink(p)
-		}
+		page += localLink(p)
 	}
 	jsonSection := `
 	<h2>JSON Repr of Internal Pages</h2>
 	<p><a href="/__json__">JSON Repr</a></p>
 	`
-	return page + drafts + "\n" + jsonSection + "</body>"
+	return page + "\n" + jsonSection + "</body>"
 }
 
 func renderJSONRepr() string {
@@ -115,20 +112,13 @@ func localLink(page Page) string {
 	return localLinkHTML(u + page.LinkDir + "/")
 }
 
-// Find all pages and drafts from disk to populate pages var
-// Presently only used for local server since we ignore drafts when
-// generating
+// Find all pages from disk to populate pages var
 func loadAllFromDisk() string {
 	pgs, errMsg := walkFiles("pages")
 	if errMsg != "" {
 		return errMsg
 	}
 	pages = pgs
-	dfts, errMsg := walkFiles("drafts")
-	if errMsg != "" {
-		return errMsg
-	}
-	pages = append(pages, dfts...)
 	return validateIndex()
 }
 

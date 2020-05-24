@@ -1,3 +1,5 @@
+github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
+github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/gomarkdown/markdown v0.0.0-20190222000725-ee6a7931a1e4 h1:vELsocEzlhM4lk2nhxolEaQrMp25u7/i9IX8s9uLads=
 github.com/gomarkdown/markdown v0.0.0-20190222000725-ee6a7931a1e4/go.mod h1:gmFANS06wAVmF0B9yi65QKsRmPQ97tze7FRLswua+OY=
 github.com/yosssi/gohtml v0.0.0-20190128141317-9b7db94d32d9 h1:fy3FCd+9/SnyVcESUaZ12rrx3qg3jcxFqP6x4iOuJ2s=

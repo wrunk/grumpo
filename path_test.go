@@ -11,19 +11,20 @@ type tbp struct {
 
 // TODO add more test cases and tests in general!
 func TestBuildPage(t *testing.T) {
-	tableTests := []tbp{{
-		Dir: "pages",
-		Fn:  "index.html",
-		Page: Page{
-			BaseDir:       "pages",
-			LinkDir:       "",
-			FileName:      "index.html",
-			Name:          "index",
-			Ext:           "html",
-			FullPath:      "pages/index.html",
-			BuildDir:      "build",
-			BuildFullPath: "build/index.html",
-		}},
+	tableTests := []tbp{
+		{
+			Dir: "pages",
+			Fn:  "index.html",
+			Page: Page{
+				BaseDir:       "pages",
+				LinkDir:       "",
+				FileName:      "index.html",
+				Name:          "index",
+				Ext:           "html",
+				FullPath:      "pages/index.html",
+				BuildDir:      "build",
+				BuildFullPath: "build/index.html",
+			}},
 		{
 			Dir: "pages/warren",
 			Fn:  "author.md",
@@ -39,7 +40,7 @@ func TestBuildPage(t *testing.T) {
 			}},
 	}
 	for _, tt := range tableTests {
-		p := buildPage(tt.Dir, tt.Fn)
+		p := _buildPage(tt.Dir, tt.Fn)
 		if p.BaseDir != tt.Page.BaseDir {
 			t.Errorf("BaseDir got (%s) wanted (%s)", p.BaseDir, tt.Page.BaseDir)
 		}
