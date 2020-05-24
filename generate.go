@@ -36,7 +36,8 @@ func generateAndWriteHTML() {
 		if err != nil {
 			die("Failed to create dir %s", err) // Haven't seen this happen
 		}
-		pageDataBys, err := ioutil.ReadFile(p.FullPath)
+		pageDataBys, err := readOffsetFile(p.FullPath, p.Meta.contentStartsOn)
+
 		if err != nil {
 			die("Couldn't read file %s %s", p.FullPath, err)
 		}

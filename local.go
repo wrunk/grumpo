@@ -1,10 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -124,17 +125,22 @@ func loadAllFromDisk() string {
 
 // TODO change this to using error messages not dying so we can
 // use with web server
-// TODO combine with generate() below
+// TODO combine with generateAndWriteHTML() in gen.go
 func renderPage(page Page) []byte {
-	pageDataBys, err := ioutil.ReadFile(page.FullPath)
+
+	pageDataBys, err := readOffsetFile(page.FullPath, page.Meta.contentStartsOn)
 	if err != nil {
 		die("Couldn't read file %s %s", page.FullPath, err)
 	}
 	if page.Ext == extMarkdown {
 		pageDataBys = buildMarkdown(pageDataBys)
 	}
+
 	// Render full page!
-	finalPage := renderHTML(map[string]interface{}{"page": string(pageDataBys)})
+	finalPage := renderHTML(map[string]interface{}{
+		"page":  string(pageDataBys),
+		"pages": pages,
+	})
 
 	err = validateHTML(finalPage)
 	if err != nil {
@@ -145,4 +151,34 @@ func renderPage(page Page) []byte {
 	// Don't use this for now as it screws up the pre formatted code blocks
 	// finalPage = gohtml.FormatBytes(finalPage)
 	return finalPage
+}
+
+// readOffsetFile will read the whole file starting at offset
+// because we read/remove metadata from the top of the file
+func readOffsetFile(fullPath string, offset int) ([]byte, error) {
+	file, err := os.Open(fullPath)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	var lineNum int
+	var contents string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lineNum++
+		if lineNum < offset {
+			continue
+		}
+		contents += scanner.Text()
+	}
+
+	if contents == "" {
+		return nil, fmt.Errorf("readOffsetFile (%s) Found no file data after %d",
+			fullPath, offset)
+	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+	return []byte(contents), nil
 }
