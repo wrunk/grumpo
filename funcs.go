@@ -1,6 +1,9 @@
 package main
 
-import "sort"
+import (
+	"sort"
+	"time"
+)
 
 // Currently used to hold template rendering functions
 
@@ -11,7 +14,10 @@ func fnLatestPages(num int) []Page {
 		latestPages = make([]Page, len(pages))
 		copy(latestPages, pages)
 		// Sort descending
-		sort.Slice(latestPages, func(i, j int) bool { return latestPages[i].Meta.PublishDate.After(latestPages[j].Meta.PublishDate) })
+		sort.Slice(latestPages, func(i, j int) bool {
+			return time.Time(latestPages[i].Meta.PublishDate).After(time.Time(latestPages[j].Meta.PublishDate))
+
+		})
 	}
 	if len(latestPages) <= num {
 		return latestPages
