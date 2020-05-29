@@ -127,7 +127,7 @@ Most fields besides live and title can just be skipped if not desired/needed.
   "updated_date": "",
 
   // Defaults to false. Set to true to treat this page as a full html page
-  "skip_base_template": ""
+  "skip_base_template": false
 }
 ```
 
