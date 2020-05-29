@@ -6,8 +6,6 @@ import (
 	"text/template"
 )
 
-var baseTemplate *template.Template
-
 const (
 	baseFile    = "base.html"
 	extHTML     = "html"
@@ -16,14 +14,11 @@ const (
 )
 
 var (
-	validExts = []string{extHTML, extMarkdown}
-	pages     = []Page{}
+	baseTemplate *template.Template
+	validExts    = []string{extHTML, extMarkdown}
+	pages        = []Page{}
+	latestPages  []Page // Cached
 )
-
-func die(f string, args ...interface{}) {
-	fmt.Printf("Error: "+f+"\n", args...)
-	os.Exit(1)
-}
 
 var help = `Please use grumpo like:
 grumpo
@@ -33,6 +28,11 @@ grumpo <cmd> <space separated flags>
 	Where cmd could be: gen|init|local
 	Flags could be -nohtmlpretty|-nohtmlvalidate
 `
+
+func die(f string, args ...interface{}) {
+	fmt.Printf("Error: "+f+"\n", args...)
+	os.Exit(1)
+}
 
 func helpDie() {
 	fmt.Printf(help)

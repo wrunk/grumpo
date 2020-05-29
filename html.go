@@ -10,7 +10,14 @@ import (
 // Only do this when NOT testing
 func loadBaseTemplate() {
 	var err error
-	baseTemplate, err = template.ParseFiles(baseFile)
+
+	baseTemplate = template.New("base")
+	// Provide a list of custom/helper functions to the template rendering process.
+	// See funcs.go
+	baseTemplate.Funcs(template.FuncMap{
+		"latest": fnLatestPages,
+	}).ParseFiles(baseFile)
+
 	if err != nil {
 		die("Failed to open base file template %s", baseFile)
 	}
