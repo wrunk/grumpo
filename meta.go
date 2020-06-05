@@ -34,6 +34,8 @@ type Meta struct {
 	// until it is published
 	Live bool `json:"live"`
 
+	Tags []string `json:"tags"`
+
 	// If set, will show an updated at field below original publication date
 	UpdatedDate localDate `json:"updated_date"` // Could be set from git as well
 
@@ -41,6 +43,13 @@ type Meta struct {
 
 	// AKA don't use the base template
 	SkipBaseTemplate bool `json:"skip_base_template"`
+
+	// Treat/render this post as a go template. Usually for listing recent posts
+	// on a home page or something
+	RenderGoTemplate bool `json:"render_go_template"`
+
+	// Exclude this page from the list of latest posts/pages
+	ExcludeFromLatest bool `json:"exclude_from_latest"`
 
 	// If the json metadata ends on line 10, then content start on 11
 	contentStartsOn int

@@ -126,6 +126,9 @@ Most fields besides live and title can just be skipped if not desired/needed.
   "publish_date": "",
   "updated_date": "",
 
+  // Tags, lower slug
+  "tags": [],
+
   // Defaults to false. Set to true to treat this page as a full html page
   "skip_base_template": false
 }

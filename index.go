@@ -5,6 +5,10 @@ import (
 	"strings"
 )
 
+/*
+"Index" means our list (slice) of pages
+*/
+
 type Page struct {
 	BaseDir  string // Usually "pages", used to mkdir -p (mkdirall)
 	LinkDir  string // Just BaseDir without the pages for generating links
@@ -17,6 +21,42 @@ type Page struct {
 	BuildFullPath string // build/index.html
 
 	Meta *Meta
+}
+
+func (p Page) LocalLink() string {
+	return fmt.Sprintf("/%s/%s/", p.BaseDir, p.Name)
+}
+
+// TODO need to figure out error handling here...
+// This is simply providing the page content to get injected into
+// the "page" template block like:
+/*
+{{- block "page" }}
+<h1>{{ .page.Meta.Title }}</h1>
+{{ .page.HTML }} {{ -}}
+*/
+func (p Page) HTML() string {
+
+	pageDataBys, err := readOffsetFile(p.FullPath, p.Meta.contentStartsOn)
+	if err != nil {
+		panic(fmt.Sprintf("Couldn't read file %s %s", p.FullPath, err))
+	}
+	if p.Ext == extMarkdown {
+		pageDataBys = buildMarkdown(pageDataBys)
+	}
+
+	// TODO, support OPTIONALLY overriding the page block for things like the home
+	// page which will want to use go templates to show recent posts
+	if p.Meta.RenderGoTemplate {
+		pageDataBys = goRenderPage(p, pageDataBys)
+	}
+
+	// Make sure the generated/final html is valid
+	err = validateHTML(pageDataBys)
+	if err != nil {
+		panic(fmt.Sprintf("%s Resulted in invalid html (%s)", p.FullPath, err))
+	}
+	return string(pageDataBys)
 }
 
 func isValidExt(ext string) bool {

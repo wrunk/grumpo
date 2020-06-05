@@ -30,8 +30,9 @@ grumpo <cmd> <space separated flags>
 `
 
 func die(f string, args ...interface{}) {
-	fmt.Printf("Error: "+f+"\n", args...)
-	os.Exit(1)
+	msg := fmt.Sprintf("Error: "+f+"\n", args...)
+	panic(msg)
+	// os.Exit(1)
 }
 
 func helpDie() {

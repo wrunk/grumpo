@@ -128,28 +128,8 @@ func loadAllFromDisk() string {
 // TODO combine with generateAndWriteHTML() in gen.go
 func renderPage(page Page) []byte {
 
-	pageDataBys, err := readOffsetFile(page.FullPath, page.Meta.contentStartsOn)
-	if err != nil {
-		die("Couldn't read file %s %s", page.FullPath, err)
-	}
-	if page.Ext == extMarkdown {
-		pageDataBys = buildMarkdown(pageDataBys)
-	}
-
 	// Render full page!
-	finalPage := renderHTML(map[string]interface{}{
-		"page":  string(pageDataBys),
-		"pages": pages,
-	})
-
-	err = validateHTML(finalPage)
-	if err != nil {
-		die("%s Resulted in invalid html (%s)", page.FullPath, err)
-	}
-
-	// Pretty print after we validate since this stupid lib won't check crap!
-	// Don't use this for now as it screws up the pre formatted code blocks
-	// finalPage = gohtml.FormatBytes(finalPage)
+	finalPage := renderHTML(templateData(page))
 	return finalPage
 }
 
@@ -169,7 +149,11 @@ func readOffsetFile(fullPath string, offset int) ([]byte, error) {
 		if lineNum < offset {
 			continue
 		}
-		contents += scanner.Text()
+		lineText := scanner.Text()
+		if lineText == "" { // Our scanner will remove newlines which markdown needs
+			lineText = "\n"
+		}
+		contents += lineText
 	}
 
 	if contents == "" {

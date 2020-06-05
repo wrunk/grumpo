@@ -27,7 +27,9 @@ func gen() {
 	}
 }
 
+// TODO MUST be combined with local functions!
 func generateAndWriteHTML() {
+	return
 	// Loop over all pages in the index:
 	for _, p := range pages {
 		// Make this file's base dir (no error if already exists,

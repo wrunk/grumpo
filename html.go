@@ -11,18 +11,17 @@ import (
 func loadBaseTemplate() {
 	var err error
 
-	baseTemplate = template.New("base")
+	// baseTemplate = template.New("base")
 	// Provide a list of custom/helper functions to the template rendering process.
 	// See funcs.go
-	baseTemplate.Funcs(template.FuncMap{
-		"latest": fnLatestPages,
-	}).ParseFiles(baseFile)
+	baseTemplate, err = template.New("base.html").Funcs(templateFuncs).ParseFiles(baseFile)
 
 	if err != nil {
-		die("Failed to open base file template %s", baseFile)
+		die("Failed to open base file template %s %s", baseFile, err)
 	}
 }
 
+// TODO might not be used anymore, should be called execTemplate really
 // Will simply render the base template with {{.page}} var
 // set to the contents of the current page being rendered or
 // displayed localally
