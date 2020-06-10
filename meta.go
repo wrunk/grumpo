@@ -55,16 +55,13 @@ type Meta struct {
 	contentStartsOn int
 }
 
+// There might be some other considerations in the future like
+// mix of live and publish date but once set, we wouldn't want to
+// change the original publish date and if something needs to come
+// down switching live to false is the best/fastest way
 func (m *Meta) Validate() error {
 	if m.Title == "" {
 		return fmt.Errorf("Meta must have a title")
-	}
-	n := time.Now()
-	pd := time.Time(m.PublishDate)
-	// We've set the pub date to the past but the article isn't considered live
-	// which doesn't make sense.
-	if !pd.IsZero() && n.After(pd) && !m.Live {
-		return fmt.Errorf("Publish date cannot be in the past without live being true")
 	}
 	return nil
 }

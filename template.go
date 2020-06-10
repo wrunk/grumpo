@@ -36,7 +36,7 @@ func fnLatestPages(num int) []Page {
 		latestPages = []Page{}
 		for i := range tmpLatestPages {
 			p := tmpLatestPages[i] // Get the actual slice element, not a copy
-			if !p.Meta.ExcludeFromLatest {
+			if !p.Meta.ExcludeFromLatest && p.Meta.Live && p.Published() {
 				latestPages = append(latestPages, p)
 			}
 		}

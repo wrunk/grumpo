@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 /*
@@ -24,7 +25,12 @@ type Page struct {
 }
 
 func (p Page) LocalLink() string {
-	return fmt.Sprintf("/%s/%s/", p.BaseDir, p.Name)
+	return fmt.Sprintf("/%s/", p.LinkDir)
+}
+
+// Means this page's publish date is in the past
+func (p Page) Published() bool {
+	return time.Now().After(time.Time(p.Meta.PublishDate))
 }
 
 // TODO need to figure out error handling here...

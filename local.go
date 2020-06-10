@@ -120,6 +120,7 @@ func loadAllFromDisk() string {
 		return errMsg
 	}
 	pages = pgs
+	latestPages = nil
 	return validateIndex()
 }
 
@@ -153,7 +154,7 @@ func readOffsetFile(fullPath string, offset int) ([]byte, error) {
 		if lineText == "" { // Our scanner will remove newlines which markdown needs
 			lineText = "\n"
 		}
-		contents += lineText
+		contents += lineText + "\n"
 	}
 
 	if contents == "" {
