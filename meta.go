@@ -13,10 +13,9 @@ import (
 // See readme for metadata details
 type Meta struct {
 	Title       string `json:"title"`
+	Title2      string `json:"title2"` // Can be used for tweets or a/b
+	Title3      string `json:"title3"`
 	Description string `json:"desc"`
-	Headline1   string `json:"hl1"`
-	Headline2   string `json:"hl2"` // Can be used for tweets or a/b
-	Headline3   string `json:"hl3"`
 	Image       string `json:"image"`
 	ImageAlt    string `json:"image_alt"`
 
