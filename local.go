@@ -33,7 +33,14 @@ func local() {
 			writeErrorPage(w, "Page Not Found", fmt.Sprintf("Page (%s) was not found", path))
 			return
 		}
-		fmt.Fprintf(w, string(renderPage(*page)))
+		htmlBys := renderPage(*page)
+		err := validateHTML(htmlBys)
+		if err != nil {
+			writeErrorPage(w, "Invalid HTML", fmt.Sprintf("%s", err))
+			return
+		}
+		// Success
+		fmt.Fprintf(w, string(htmlBys))
 	})
 
 	http.HandleFunc("/__index__", func(w http.ResponseWriter, r *http.Request) {

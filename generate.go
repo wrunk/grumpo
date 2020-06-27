@@ -8,19 +8,16 @@ import (
 )
 
 func gen() {
-	// Walk files is currently recursive and cant operate on the
-	// global pages. TODO fix this
-	pgs, errMsg := walkFiles("pages")
+	loadBaseTemplate()
+	errMsg := loadAllFromDisk()
 	if errMsg != "" {
 		die(errMsg)
 	}
-	pages = pgs
 
-	errMsg = validateIndex()
-	if errMsg != "" {
-		die(errMsg)
-	}
+	// TODO fix me
 	generateAndWriteHTML()
+
+	// And the rest should work
 	errMsg = copyStatic()
 	if errMsg != "" {
 		die(errMsg)
@@ -29,7 +26,6 @@ func gen() {
 
 // TODO MUST be combined with local functions!
 func generateAndWriteHTML() {
-	return
 	// Loop over all pages in the index:
 	for _, p := range pages {
 		// Make this file's base dir (no error if already exists,
@@ -38,19 +34,8 @@ func generateAndWriteHTML() {
 		if err != nil {
 			die("Failed to create dir %s", err) // Haven't seen this happen
 		}
-		pageDataBys, err := readOffsetFile(p.FullPath, p.Meta.contentStartsOn)
 
-		if err != nil {
-			die("Couldn't read file %s %s", p.FullPath, err)
-		}
-		if p.Ext == extMarkdown {
-			pageDataBys = buildMarkdown(pageDataBys)
-		}
-		// Render full page
-		finalPage := renderHTML(map[string]interface{}{
-			"page":  string(pageDataBys),
-			"pages": pages, // Pass in all pages for future use
-		})
+		finalPage := renderHTML(templateData(p))
 
 		err = validateHTML(finalPage)
 		if err != nil {
