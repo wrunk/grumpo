@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
 )
@@ -28,6 +29,10 @@ func gen() {
 func generateAndWriteHTML() {
 	// Loop over all pages in the index:
 	for _, p := range pages {
+		if !p.Meta.Live {
+			log.Printf("Skipping draft page %s", p.FullPath)
+			continue
+		}
 		// Make this file's base dir (no error if already exists,
 		// same behavior as mkdir -p)
 		err := os.MkdirAll(p.BuildDir, 0755)
